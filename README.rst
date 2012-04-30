@@ -19,7 +19,7 @@ If you replicate full albums, please make sure that tracks filenames are similar
 
 In addition to id3 cloning, replica can handle files renaming too so that *upgrading* mp3 files becomes a no-brainer. 
  
-Consider the `-u` option to remove the source files and replace them by their upgraded version. Preserving filepaths enables you to migrate id3 metatags to new files while keeping the information stored by your music player (such as ratings or play counts) valid.
+Consider the ``-u`` option to remove the source files and replace them by their upgraded version. Preserving filepaths enables you to migrate id3 metatags to new files while keeping the information stored by your music player (such as ratings or play counts) valid.
 
 Disclaimer
 ----------
