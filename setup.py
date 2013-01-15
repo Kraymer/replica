@@ -17,9 +17,9 @@ if sys.argv[-1] == "publish":
     sys.exit()
 
 setup(name='replica',
-      version='0.1.0',
+      version='0.1.1',
       description='id3 metadata file cloner',
-      long_description=open('README.md').read(),
+      long_description=open('README.rst').read(),
       author='Fabrice Laporte',
       author_email='tunecrux@gmail.com',
       url='https://github.com/KraYmer/replica',
