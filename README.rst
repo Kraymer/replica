@@ -1,12 +1,10 @@
 Replica, the id3 cloner 
 ------------------------
 
-| *Oh sure, she is showing off a sexy face. Perfect metatags shaped by you to fullfill your media management OCD. But deep inside, you know this track lacks some inner beauty.*
-| *Is it about low bitrate or crackling noises? Doesn't matter, the quality is just not there.*
-| *So you buys a copy that possesses a purest soul, a crystal clear 320kbps version ... only to realize that it needs a boatload of plastic surgery to make it look like the original.*
-  
-
-Replica can help you having it both ways by cloning id3 metadata from the original file to the copy.
+When considering to make a new purchase of mp3 files to get them in better quality, 
+losing the id3 metadata in the process may be an hindrance to the upgrade.   
+Replica can help you having it both ways by cloning id3 metadata from the original 
+file to the enhanced copy. 
 
 Usage
 -----
