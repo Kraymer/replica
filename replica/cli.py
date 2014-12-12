@@ -55,12 +55,28 @@ def get_mp3_paths(path):
 def expand_args(args):
     '''Edit/add entries to args dictionary'''
 
-    args['src'] = args['src'][0]
-    args['dst'] = args['dst'][0]
-    args['src_dir'] = args['src'] if os.path.isdir(args['src']) else None
-    args['dst_dir'] = args['dst'] if os.path.isdir(args['dst']) else None
-    args['src']  = get_mp3_paths(args['src'])
-    args['dst'] = get_mp3_paths(args['dst'])
+    for (key_files, key_dir) in zip(('src', 'dst'), ('src_dir', 'dst_dir')):
+        args[key_dir] = get_mp3_paths(args[key_files])  # expand files
+        if args[key_dir]:
+            # if expanded, then original src was a dir, so swap the dict values
+            args[key_dir], args[key_files] = args[key_files], args[key_dir]
+
+    if args['partial']:
+        # Find a donor for each recipient
+        regex = r'(\d+)(\D+)'
+        src_selection = []
+        dst_selection = []
+        for dst in args['dst']:
+            m = re.match(regex, os.path.basename(dst))
+            tracknum_dst = int(m.group(1))
+            for src in args['src']:
+                m = re.match(regex, os.path.basename(src))
+                tracknum_src = int(m.group(1))
+                if tracknum_dst == tracknum_src:
+                    src_selection.append(src)
+                    dst_selection.append(dst)
+        args['src'] = src_selection
+        args['dst'] = dst_selection
     return args
 
 
@@ -76,20 +92,22 @@ def check_args(args):
 def get_parser(prog=sys.argv[0]):
     '''Returns the command parser.'''
 
-    parser = argparse.ArgumentParser(\
+    parser = argparse.ArgumentParser(
         description='Clone id3 metadata between mp3 files.',
-        epilog='Report bugs to tunecrux@gmail.com',
+        epilog='Report bugs to kraymer@gmail.com',
         prog=os.path.basename(prog))
 
-    parser.add_argument('src', metavar='SRC', nargs=1, 
-        help='the id3 donor (file or directory).')
-    parser.add_argument('dst', metavar='DEST', nargs=1, 
-        help='the id3 recipient (file or directory).')
-    parser.add_argument('-f', '--filename', action='store_true', 
-        help="clone filenames.")    
-    parser.add_argument('-u', '--update', action='store_true', 
+    parser.add_argument('src', metavar='SRC', nargs=1,
+                        help='the id3 donor (file or directory).')
+    parser.add_argument('dst', metavar='DEST', nargs=1,
+                        help='the id3 recipient (file or directory).')
+    parser.add_argument('-f', '--filename', action='store_true',
+                        help="clone filenames.")
+    parser.add_argument('-u', '--update', action='store_true',
         help="clone absolute paths. Warning: SRC files will be overwritten.")
-
+    parser.add_argument('-p', '--partial', action='store_true',
+                        help=('authorize partial album cloning by matching'
+                        ' folder tracks individually'))
     return parser
 
 
