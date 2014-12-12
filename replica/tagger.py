@@ -1,38 +1,39 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Fabrice Laporte - tunecrux.com
+# Copyright (c) 2012-2014 Fabrice Laporte - kray.me
 # The MIT License http://www.opensource.org/licenses/mit-license.php
 
 """File-level functions to read and write id3 tags."""
 
-import copy, logging
+import copy
+import logging
 from mutagen import id3, mp3
 
 
-def get_tags(path):
-    '''Get id3 frames of mp3 file located at given path'''
+def get_tags(filepath):
+    '''Get id3 frames of mp3 file located at given filepath'''
 
     try:
-        audio = mp3.MP3(path)
-    except mp3.HeaderNotFoundError :
+        audio = mp3.MP3(filepath)
+    except mp3.HeaderNotFoundError:
         audio = {}
         header = id3.ID3()
-        header.save(path)
+        header.save(filepath)
         logging.warning("No ID3 header found, creating a new tag")
     return audio
 
 
-def set_tags(path, tagVals, frames=None):
-    '''Set id3 frames of files at path'''
+def set_tags(filepath, tagVals, frames=None):
+    '''Set id3 frames of file'''
 
     try:
-        tags = id3.ID3(path)      
+        tags = id3.ID3(filepath)
         tags_bak = copy.deepcopy(tags)
-        tags.delete()  
-    except id3.ID3NoHeaderError :
+        tags.delete()
+    except id3.ID3NoHeaderError:
         tags = id3.ID3()
-        tags.save(path)
+        tags.save(filepath)
         logging.warning("No ID3 header found, created one.")
 
     try:
@@ -40,15 +41,11 @@ def set_tags(path, tagVals, frames=None):
             if frames and tag.split('::')[0] not in frames:
                 continue
             tags.add(val)
-        tags.save(path)
-
-    except :
-        msg = "Error writing file '%s'" % path
-        logging.debug(msg, exc_info=True)
+        tags.save(filepath)
+    except:
+        msg = "Error writing file '%s'" % filepath
         print msg
         if tags_bak:
-            tags_bak.save(path) # restore id3
-
+            tags_bak.save(filepath)  # restore id3
         return False
-
     return True

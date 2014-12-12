@@ -1,42 +1,45 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Fabrice Laporte - tunecrux.com
+# Copyright (c) 2012-2014 Fabrice Laporte - kray.me
 # The MIT License http://www.opensource.org/licenses/mit-license.php
 
-"""This module contains all functions to handle command arguments and the
-program core workflow defined by replicate.cli.replicate().
-Call replica.cli.main() to invoke the CLI."""
-
-from __future__ import print_function 
-import os, sys 
-import argparse, fnmatch, logging
+from __future__ import print_function
+import os
+import sys
+import argparse
+import fnmatch
+import logging
+import re
 from datetime import datetime
-from replica import cloner 
+from replica import cloner
 
 # Logging config
 LOG_FILENAME = '/tmp/replica.log'
-LOG_FORMAT = "%(lineno)d:%(levelname)s: "+"%(message)s" 
+LOG_FORMAT = "%(lineno)d:%(levelname)s: " + "%(message)s"
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG,
                     format=LOG_FORMAT)
+
 
 def replicate(args):
     '''Clone id3 and eventually paths'''
 
+    if not check_args(args):
+        return 1
     print('Cloning id3 metadata...', end='')
     cloner.clone_id3(args['src'], args['dst'])
-    print(' done')
+    print('done')
     if args['filename'] or args['update']:
         print('Renaming files.........', end='')
         cloner.clone_path(args['src'], args['dst'], args['update'])
         if args['src_dir'] and not args['update']:
             try:
-                cloner.clone_dirpath(args['src_dir'], args['dst_dir'])  
+                cloner.clone_dirpath(args['src_dir'], args['dst_dir'])
             except OSError as e:
-                print(' failed')
-                print(e)
-                exit()
-        print(' done')  
+                print('failed\n%s' % e)
+                return 1
+        print('done')
+    return 0
 
 
 def get_mp3_paths(path):
@@ -60,13 +63,15 @@ def expand_args(args):
     args['dst'] = get_mp3_paths(args['dst'])
     return args
 
+
 def check_args(args):
     '''Check arguments validity'''
-    
+
     if len(args['src']) != len(args['dst']):
         print('Error: SRC and DEST must have same number of files')
-        return 0
-    return 1
+        return False
+    return True
+
 
 def get_parser(prog=sys.argv[0]):
     '''Returns the command parser.'''
@@ -88,24 +93,17 @@ def get_parser(prog=sys.argv[0]):
     return parser
 
 
-def main(argv=None) :
-    '(see main.__doc__ below)'
+def main(argv=None):
 
     if argv is None:
-        argv = sys.argv 
-
+        argv = sys.argv
     parser = get_parser()
     args = vars(parser.parse_args())
-
+    args['src'] = args['src'][0]
+    args['dst'] = args['dst'][0]
     logging.debug('new session %s', str(datetime.now()))
     args = expand_args(args)
-
-    if not check_args(args):
-        exit()
-
-    replicate(args)
-
-main.__doc__ = 'Script main function.\n' + get_parser(__file__).format_help()
+    exit(replicate(args))
 
 
 if __name__ == "__main__":

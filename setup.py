@@ -8,6 +8,7 @@ import sys
 
 from setuptools import setup
 
+
 def publish():
     """Publish to PyPi"""
     os.system("python setup.py sdist upload")
@@ -17,33 +18,32 @@ if sys.argv[-1] == "publish":
     sys.exit()
 
 setup(name='replica',
-      version='0.1.1',
-      description='id3 metadata file cloner',
-      long_description=open('README.rst').read(),
-      author='Fabrice Laporte',
-      author_email='tunecrux@gmail.com',
-      url='https://github.com/KraYmer/replica',
-      license='MIT',
-      platforms='ALL',
+    version='0.1.1',
+    description='id3 metadata file cloner',
+    long_description=open('README.rst').read(),
+    author='Fabrice Laporte',
+    author_email='kraymer@gmail.com',
+    url='https://github.com/KraYmer/replica',
+    license='MIT',
+    platforms='ALL',
 
-      packages=[
-          'replica',
+    packages=[
+      'replica',
+    ],
+
+    entry_points={
+      'console_scripts': [
+          'replica = replica.cli:main',
       ],
+    },
 
-      entry_points={
-          'console_scripts': [
-              'replica = replica.cli:main',
-          ],
-      },
+    install_requires=[
+      'mutagen'
+    ],
 
-      install_requires=[
-          'mutagen'
-      ],
-
-      classifiers=[
-          'Topic :: Multimedia :: Sound/Audio',
-          'Topic :: Multimedia :: Sound/Audio :: Players :: MP3',
-          'License :: OSI Approved :: MIT License',
-          'Environment :: Console',
-      ],
-)
+    classifiers=[
+      'Topic :: Multimedia :: Sound/Audio',
+      'Topic :: Multimedia :: Sound/Audio :: Players :: MP3',
+      'License :: OSI Approved :: MIT License',
+      'Environment :: Console',
+    ])

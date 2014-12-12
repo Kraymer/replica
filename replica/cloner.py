@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012 Fabrice Laporte - tunecrux.com
+# Copyright (c) 2012-2014 Fabrice Laporte - kray.me
 # The MIT License http://www.opensource.org/licenses/mit-license.php
 
-"""This module contains functions to extract properties of files and apply 
+"""This module contains functions to extract properties of files and apply
 them to others files."""
 
-import os, shutil 
-import logging
+import os
+import shutil
 from replica import tagger
 
 def clone_id3(srcs, dsts):
@@ -24,19 +24,18 @@ def clone_path(srcs, dsts, inplace):
 
     dst_dir = os.path.dirname(dsts[0])
     for (src, dst) in zip(srcs, dsts):
+        print "Cloning %s with %s" % (src, dst)
         if inplace:
+            # Replace donor by recipient
             shutil.move(dst, src)
-            logging.debug('Exec move %s => %s', dst, src)
         else:
             mv_dst = os.path.join(dst_dir, os.path.basename(src))
             shutil.move(dst, mv_dst)
-            logging.debug('Exec move %s => %s', dst, mv_dst)
 
-        
+
 def clone_dirpath(src, dst):
     '''Apply src directory name to dst directory'''
 
-    _, src_base = os.path.split(os.path.normpath(src))
-    dst_dir, _ = os.path.split(os.path.normpath(dst))
-
-    shutil.move(dst, os.path.join(dst_dir, src_base))  
+    src_base = os.path.split(os.path.normpath(src))[1]
+    dst_dir = os.path.split(os.path.normpath(dst))[0]
+    shutil.move(dst, os.path.join(dst_dir, src_base))
