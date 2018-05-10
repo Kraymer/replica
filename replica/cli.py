@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012-2014 Fabrice Laporte - kray.me
+# Copyright (c) 2012-2018 Fabrice Laporte - kray.me
 # The MIT License http://www.opensource.org/licenses/mit-license.php
 
 from __future__ import print_function
@@ -22,8 +22,8 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG,
 
 
 def replicate(args):
-    '''Clone id3 and eventually paths'''
-
+    """Clone id3 and eventually paths
+    """
     if not check_args(args):
         return 1
     print('Cloning id3 metadata...', end='')
@@ -43,8 +43,8 @@ def replicate(args):
 
 
 def get_mp3_paths(path):
-    '''Return mp3 files located at path'''
-
+    """Return mp3 files located at path
+    """
     res = [path]
     if os.path.isdir(path):
         res = fnmatch.filter(os.listdir(path), '*.mp3')
@@ -53,8 +53,8 @@ def get_mp3_paths(path):
 
 
 def expand_args(args):
-    '''Edit/add entries to args dictionary'''
-
+    """Edit/add entries to args dictionary
+    """
     for (key_files, key_dir) in zip(('src', 'dst'), ('src_dir', 'dst_dir')):
         args[key_dir] = get_mp3_paths(args[key_files])  # expand files
         if args[key_dir]:
@@ -81,8 +81,8 @@ def expand_args(args):
 
 
 def check_args(args):
-    '''Check arguments validity'''
-
+    """Check arguments validity
+    """
     if len(args['src']) != len(args['dst']):
         print('Error: SRC and DEST must have same number of files')
         return False
@@ -90,8 +90,8 @@ def check_args(args):
 
 
 def get_parser(prog=sys.argv[0]):
-    '''Returns the command parser.'''
-
+    """Return the command parser.
+    """
     parser = argparse.ArgumentParser(
         description='Clone id3 metadata between mp3 files.',
         epilog='Report bugs to kraymer@gmail.com',
