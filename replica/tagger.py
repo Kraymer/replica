@@ -45,7 +45,7 @@ def set_tags(filepath, tag_vals, frames=None):
         tags.save(filepath)
     except:
         msg = "Error writing file '%s'" % filepath
-        print msg
+        logging.error(msg)
         if tags_bak:
             tags_bak.save(filepath)  # restore id3
         return False
