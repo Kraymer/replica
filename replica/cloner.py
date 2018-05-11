@@ -26,7 +26,7 @@ def clone_path(srcs, dsts, inplace):
     """
     dst_dir = os.path.dirname(dsts[0])
     for (src, dst) in zip(srcs, dsts):
-        print "Cloning %s with %s" % (src, dst)
+        print('Cloning %s with %s' % (src, dst))
         if inplace:
             # Replace donor by recipient
             shutil.move(dst, src)

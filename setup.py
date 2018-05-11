@@ -1,24 +1,13 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2012 Fabrice Laporte - tunecrux.com
+# Copyright (c) 2012-2018 Fabrice Laporte - tunecrux.com
 # The MIT License http://www.opensource.org/licenses/mit-license.php
-
-import os
-import sys
 
 from setuptools import setup
 
 
-def publish():
-    """Publish to PyPi"""
-    os.system("python setup.py sdist upload")
-
-if sys.argv[-1] == "publish":
-    publish()
-    sys.exit()
-
 setup(name='replica',
-    version='0.1.1',
+    version='0.1.2',
     description='id3 metadata file cloner',
     long_description=open('README.rst').read(),
     author='Fabrice Laporte',
@@ -30,17 +19,15 @@ setup(name='replica',
     packages=[
       'replica',
     ],
-
     entry_points={
       'console_scripts': [
           'replica = replica.cli:main',
       ],
     },
-
     install_requires=[
       'mutagen'
     ],
-
+    python_requires='>=2.6, <4',
     classifiers=[
       'Topic :: Multimedia :: Sound/Audio',
       'Topic :: Multimedia :: Sound/Audio :: Players :: MP3',
