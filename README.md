@@ -1,5 +1,4 @@
-[![](http://img.shields.io/pypi/v/replica.svg)](https://pypi.python.org/pypi/replica)  
-[![](https://img.shields.io/badge/rss-subscribe-orange.svg)](https://github.com/Kraymer/replica/releases.atom)
+[![](http://img.shields.io/pypi/v/replica.svg)](https://pypi.python.org/pypi/replica) [![](https://img.shields.io/badge/rss-subscribe-orange.svg)](https://github.com/Kraymer/replica/releases.atom)
 
 Replica, the id3 cloner 
 ------------------------
@@ -21,7 +20,7 @@ If you replicate full albums, please make sure that tracks filenames are similar
 
 In addition to id3 cloning, replica can handle files renaming too so that *upgrading* mp3 files becomes a no-brainer. 
  
-Consider the ``-u`` option to remove the source files and replace them by their upgraded version.
+Consider the `-u` option to remove the source files and replace them by their upgraded version.
 By doing so, it instantly migrates id3 metatags to new files while keeping the information stored by your music player (ratings, play counts, etc) valid as the tracks filepaths get unmodified. 
 
 Disclaimer
@@ -32,11 +31,5 @@ Replica modifies mp3 files with no provision provided to undo the changes. I wou
 Install
 -------
 
-You can install replica by typing ``pip install replica``.  
+You can install replica by typing `pip install replica`.  
 
-Authors
--------
-
-Replica is by `Fabrice Laporte`_.
-
-.. _Fabrice Laporte: mailto:tunecrux@gmail.com
