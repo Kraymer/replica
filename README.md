@@ -12,11 +12,11 @@ file to the enhanced copy.
 Usage
 -----
 
-If you replicate full albums, please make sure that tracks filenames are similarly ordered in both source and destination folders.:: 
+If you replicate full albums, please make sure that tracks filenames are similarly ordered in both source and destination folders.
 
-  $ replica -u Library/Sam_Cooke-Ain_t_that_good_news-128kbps-2003 Incoming/sam_cook-good-news-320kbps
-  Cloning id3 metadata... Done
-  Renaming files......... Done
+    $ replica -u Library/Sam_Cooke-Ain_t_that_good_news-128kbps-2003 Incoming/sam_cook-good-news-320kbps
+    Cloning id3 metadata... Done
+    Renaming files......... Done
 
 In addition to id3 cloning, replica can handle files renaming too so that *upgrading* mp3 files becomes a no-brainer. 
  
