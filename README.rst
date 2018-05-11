@@ -1,3 +1,6 @@
+[![](http://img.shields.io/pypi/v/replica.svg)](https://pypi.python.org/pypi/replica)
+[![nopypi rss](https://img.shields.io/badge/rss-subscribe-orange.svg)](https://github.com/Kraymer/replica/releases.atom)
+
 Replica, the id3 cloner 
 ------------------------
 
