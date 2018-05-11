@@ -1,8 +1,3 @@
-# Include tests (but avoid including *.pyc, etc.)
-prune test
-recursive-include test/rsrc *
-include test/*.py
-
 # Include relevant text files.
 include LICENSE README.md
 
