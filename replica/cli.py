@@ -11,11 +11,13 @@ import argparse
 import fnmatch
 import logging
 import re
+import tempfile
+
 from datetime import datetime
 from replica import cloner
 
 # Logging config
-LOG_FILENAME = '/tmp/replica.log'
+LOG_FILENAME = os.path.join(tempfile.gettempdir(), 'replica.log')
 LOG_FORMAT = "%(lineno)d:%(levelname)s: " + "%(message)s"
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG,
                     format=LOG_FORMAT)
