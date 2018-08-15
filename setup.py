@@ -9,7 +9,7 @@ from setuptools import setup
 setup(name='replica',
     version='0.1.2',
     description='id3 metadata file cloner',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     author='Fabrice Laporte',
     author_email='kraymer@gmail.com',
     url='https://github.com/KraYmer/replica',
