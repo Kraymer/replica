@@ -49,7 +49,7 @@ def get_mp3_paths(path):
     """
     res = [path]
     if os.path.isdir(path):
-        res = fnmatch.filter(os.listdir(path), '*.mp3')
+        res = fnmatch.filter(sorted(os.listdir(path)), '*.mp3')
         res = [os.path.join(path, x) for x in res]
     return res
 
