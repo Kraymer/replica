@@ -12,8 +12,8 @@ file to the enhanced copy.
 
     $ replica <command> [<args>]
     Commands:
-      mp3       Clone id3 tags between local mp3 files
-      spotify   Create spotify playlist from local mp3 files
+      local     Clone id3 tags between local mp3 files
+      spotify   Clone local mp3 files into a spotify playlist
     
     
 ### Advanced
