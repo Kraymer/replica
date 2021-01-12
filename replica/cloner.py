@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2012-2018 Fabrice Laporte - kray.me
+# Copyright (c) 2012-2021 Fabrice Laporte - kray.me
 # The MIT License http://www.opensource.org/licenses/mit-license.php
 
 """This module contains functions to extract properties of files and apply
