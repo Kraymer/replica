@@ -1,6 +1,6 @@
-.. image:: image:: http://img.shields.io/pypi/v/replica.svg
+.. image:: http://img.shields.io/pypi/v/replica.svg
    :target: https://pypi.python.org/pypi/replica
-.. image:: image:: https://img.shields.io/badge/rss-subscribe-orange.svg
+.. image:: https://img.shields.io/badge/rss-subscribe-orange.svg
    :target: https://github.com/Kraymer/replica/releases.atom
 .. image:: https://pepy.tech/badge/replica
    :target: https://pepy.tech/project/replica
