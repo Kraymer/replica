@@ -1,9 +1,14 @@
+.. image:: http://github.com/kraymer/replica/workflows/build/badge.svg
+   :target: https://github.com/kraymer/replica/actions
+.. image:: https://codecov.io/gh/Kraymer/replica/branch/master/graph/badge.svg?token=
+   :target: https://codecov.io/gh/Kraymer/replica
 .. image:: http://img.shields.io/pypi/v/replica.svg
    :target: https://pypi.python.org/pypi/replica
 .. image:: https://img.shields.io/badge/rss-subscribe-orange.svg
    :target: https://github.com/Kraymer/replica/releases.atom
 .. image:: https://pepy.tech/badge/replica
    :target: https://pepy.tech/project/replica
+
 
 .. pypi
 
