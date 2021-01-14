@@ -13,8 +13,7 @@ from mutagen import id3, mp3
 
 
 def get_tags(filepath):
-    """Get id3 frames of mp3 file located at given filepath
-    """
+    """Get id3 frames of mp3 file located at given filepath"""
     try:
         audio = mp3.MP3(filepath)
     except mp3.HeaderNotFoundError:
@@ -26,8 +25,7 @@ def get_tags(filepath):
 
 
 def set_tags(filepath, tag_vals, frames=None):
-    """Set id3 frames of file
-    """
+    """Set id3 frames of file"""
     try:
         tags = id3.ID3(filepath)
         tags_bak = copy.deepcopy(tags)
@@ -39,11 +37,11 @@ def set_tags(filepath, tag_vals, frames=None):
 
     try:
         for (tag, val) in tag_vals.items():
-            if frames and tag.split('::')[0] not in frames:
+            if frames and tag.split("::")[0] not in frames:
                 continue
             tags.add(val)
         tags.save(filepath)
-    except:
+    except Exception:
         msg = "Error writing file '%s'" % filepath
         logging.error(msg)
         if tags_bak:
