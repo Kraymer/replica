@@ -7,19 +7,21 @@
 from __future__ import print_function
 import os
 import sys
-import argparse
 import fnmatch
 import logging
 import re
-import tempfile
 
 from datetime import datetime
+
+import click
+import click_log
+
 from replica import cloner
 
-# Logging config
-LOG_FILENAME = os.path.join(tempfile.gettempdir(), "replica.log")
-LOG_FORMAT = "%(lineno)d:%(levelname)s: " + "%(message)s"
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG, format=LOG_FORMAT)
+__version__ = "0.1.2"
+
+logger = logging.getLogger(__name__)
+click_log.basic_config(logger)
 
 
 def replicate(args):
@@ -86,51 +88,48 @@ def check_args(args):
     return True
 
 
-def get_parser(prog=sys.argv[0]):
-    """Return the command parser."""
-    parser = argparse.ArgumentParser(
-        description="Clone id3 metadata between mp3 files.",
-        epilog="Report bugs to kraymer@gmail.com",
-        prog=os.path.basename(prog),
-    )
-
-    parser.add_argument(
-        "src", metavar="SRC", nargs=1, help="the id3 donor (file or directory)."
-    )
-    parser.add_argument(
-        "dst", metavar="DEST", nargs=1, help="the id3 recipient (file or directory)."
-    )
-    parser.add_argument(
-        "-f", "--filename", action="store_true", help="clone filenames."
-    )
-    parser.add_argument(
-        "-u",
-        "--update",
-        action="store_true",
-        help="clone absolute paths. Warning: SRC files will be overwritten.",
-    )
-    parser.add_argument(
-        "-p",
-        "--partial",
-        action="store_true",
-        help=(
-            "authorize partial album cloning by matching" " folder tracks individually"
-        ),
-    )
-    return parser
+@click.command(
+    context_settings=dict(help_option_names=["-h", "--help"]), help="The id3 cloner"
+)
+@click.argument(
+    "src",
+    type=click.Path(exists=True),
+    metavar="SRC",
+    nargs=1,
+    help="the id3 donor (file or directory).",
+)
+@click.argument(
+    "dst",
+    type=click.Path(exists=True),
+    metavar="DEST",
+    nargs=1,
+    help="the id3 recipient (file or directory).",
+)
+@click.option("-f", "--filename", default=False, is_flag=True, help="clone filenames.")
+@click.option(
+    "-u",
+    "--update",
+    default=False,
+    is_flag=True,
+    help="clone absolute paths. Warning: SRC files will be overwritten.",
+)
+@click.option(
+    "-p",
+    "--partial",
+    default=False,
+    is_flag=True,
+    help=("authorize partial album cloning by matching folder tracks individually"),
+)
+@click_log.simple_verbosity_option(logger)
+@click.version_option()
+def replica_cli(src, dest, filename, update, partial):
+    logging.debug("new session %s", str(datetime.now()))
+    # res = replicate(args)
+    # exit(res)
 
 
 def main(argv=None):
-
-    if argv is None:
-        argv = sys.argv
-    parser = get_parser()
-    args = vars(parser.parse_args())
-    args["src"] = args["src"][0]
-    args["dst"] = args["dst"][0]
-    logging.debug("new session %s", str(datetime.now()))
-    args = expand_args(args)
-    exit(replicate(args))
+    replica_cli()
 
 
 if __name__ == "__main__":
