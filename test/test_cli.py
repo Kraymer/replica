@@ -50,7 +50,7 @@ class CliTest(unittest.TestCase):
 
     def test_expand_args(self):
         def extract_track_num(filepath):
-            return int(filepath.split("/")[-1].split(".")[0])
+            return int(filepath.split(os.path.sep)[-1].split(".")[0])
 
         src, dst = cli.expand_args(self.src_album_dir, self.dst_album_dir)
         self.assertTrue(len(src) == len(dst) * 2)
