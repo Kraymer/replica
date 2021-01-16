@@ -4,7 +4,6 @@
 # Copyright (c) 2012-2021 Fabrice Laporte - kray.me
 # The MIT License http://www.opensource.org/licenses/mit-license.php
 
-from __future__ import print_function
 import os
 import sys
 import fnmatch
@@ -24,94 +23,70 @@ logger = logging.getLogger(__name__)
 click_log.basic_config(logger)
 
 
-def replicate(args):
-    """Clone id3 and eventually paths"""
-    if not check_args(args):
-        return 1
-    print("Cloning id3 metadata...", end="")
-    cloner.clone_id3(args["src"], args["dst"])
-    print("done")
-    if args["filename"] or args["update"]:
-        print("Renaming files.........", end="")
-        cloner.clone_path(args["src"], args["dst"], args["update"])
-        if args["src_dir"] and not args["update"]:
-            try:
-                cloner.clone_dirpath(args["src_dir"], args["dst_dir"])
-            except OSError as e:
-                print("failed\n%s" % e)
-                return 1
-        print("done")
-    return 0
+def get_mp3_paths(dirpath):
+    """Return mp3 located into dirpath"""
+    return [
+        os.path.join(dirpath, x)
+        for x in fnmatch.filter(sorted(os.listdir(dirpath)), "*.mp3")
+    ]
 
 
-def get_mp3_paths(path):
-    """Return mp3 files located at path"""
-    res = [path]
-    if os.path.isdir(path):
-        res = fnmatch.filter(sorted(os.listdir(path)), "*.mp3")
-        res = [os.path.join(path, x) for x in res]
-    return res
+def expand_args(src, dest, partial=False):
+    """Expand src and dest into list of filepaths"""
+    src_files = get_mp3_paths(src) if os.path.isdir(src) else [src]
+    dest_files = get_mp3_paths(dest) if os.path.isdir(dest) else [dest]
 
-
-def expand_args(args):
-    """Edit/add entries to args dictionary"""
-    for (key_files, key_dir) in zip(("src", "dst"), ("src_dir", "dst_dir")):
-        args[key_dir] = get_mp3_paths(args[key_files])  # expand files
-        if args[key_dir]:
-            # if expanded, then original src was a dir, so swap the dict values
-            args[key_dir], args[key_files] = args[key_files], args[key_dir]
-
-    if args["partial"]:
+    if partial:
         # Find a donor for each recipient
         regex = r"(\d+)(\D+)"
         src_selection = []
         dst_selection = []
-        for dst in args["dst"]:
+        for dst in dest_files:
             m = re.match(regex, os.path.basename(dst))
             tracknum_dst = int(m.group(1))
-            for src in args["src"]:
+            for src in src_files:
                 m = re.match(regex, os.path.basename(src))
                 tracknum_src = int(m.group(1))
                 if tracknum_dst == tracknum_src:
                     src_selection.append(src)
                     dst_selection.append(dst)
-        args["src"] = src_selection
-        args["dst"] = dst_selection
-    return args
+        return src_selection, dst_selection
+
+    return src_files, dest_files
 
 
 def check_args(args):
     """Check arguments validity"""
     if len(args["src"]) != len(args["dst"]):
-        print("Error: SRC and DEST must have same number of files")
+        logger.info("Error: SRC and DEST must have same number of files")
         return False
     return True
 
 
 @click.command(
-    context_settings=dict(help_option_names=["-h", "--help"]), help="The id3 cloner"
+    context_settings=dict(help_option_names=["-h", "--help"]),
+    help="""The id3 cloner.
+    Copy id3 tags from SRC (file or directory) to DEST (idem).""",
 )
 @click.argument(
     "src",
     type=click.Path(exists=True),
     metavar="SRC",
     nargs=1,
-    help="the id3 donor (file or directory).",
 )
 @click.argument(
     "dst",
     type=click.Path(exists=True),
     metavar="DEST",
     nargs=1,
-    help="the id3 recipient (file or directory).",
 )
-@click.option("-f", "--filename", default=False, is_flag=True, help="clone filenames.")
+@click.option("-f", "--filename", default=False, is_flag=True, help="clone filenames")
 @click.option(
-    "-u",
-    "--update",
+    "-r",
+    "--replace",
     default=False,
     is_flag=True,
-    help="clone absolute paths. Warning: SRC files will be overwritten.",
+    help="replace SRC with DEST. Warning: SRC files will be overwritten",
 )
 @click.option(
     "-p",
@@ -122,10 +97,13 @@ def check_args(args):
 )
 @click_log.simple_verbosity_option(logger)
 @click.version_option()
-def replica_cli(src, dest, filename, update, partial):
+def replica_cli(src, dst, filename, replace, partial):
     logging.debug("new session %s", str(datetime.now()))
-    # res = replicate(args)
-    # exit(res)
+    src, dest = expand_args(src, dst, partial)
+    cloner.clone_id3(src, dest)
+    # cloner.clone_path(src, dest, replace)
+    # cloner.clone_dirpath(args["src_dir"], args["dst_dir"])
+    exit(0)
 
 
 def main(argv=None):
