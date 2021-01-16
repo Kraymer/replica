@@ -12,15 +12,18 @@
 
 .. pypi
 
-Replica, the id3 cloner
------------------------
+Replica, the id3 tags cloner
+====
 
-When considering to make a new purchase of mp3 files to get them in
-better quality, losing the id3 metadata in the process may be an
-hindrance to the upgrade.
+Preamble
+----
 
-Replica can help you having it both ways by cloning id3 metadata from
-the original file to the enhanced copy.
+| 2010.
+|
+| The 128 kbps mp3 files you piled ud during last decade are aging. Maybe it's time to upgrade your library, 320 kbps is the new kid in town. 
+| One thing stops you: the precious personal info you stored in your id3 tags and don't want to lose.
+
+Replica can ease you mp3 library upgrading process by cloning id3 metadata from the original file to the enhanced copy.
 
 Usage
 -----
